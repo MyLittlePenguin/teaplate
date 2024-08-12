@@ -9,7 +9,7 @@ local M = {
 local function selectFromDisplay()
   local idx = M.display:close()
   if idx ~= nil then
-   TeaStore.useTemplate(TeaStore.templates[idx])
+    TeaStore.useTemplate(TeaStore.templates[idx])
   end
 end
 
@@ -33,7 +33,14 @@ local function closeDisplay()
 end
 
 local function createCommands()
-  vim.api.nvim_create_user_command("TeaHarvest", TeaStore.updateTemplateList, {})
+  vim.api.nvim_create_user_command(
+    "TeaHarvest",
+    function()
+      TeaStore.updateTemplateList()
+      TeaStore.updateTemplateMappings()
+    end,
+    {}
+  )
   vim.api.nvim_create_user_command("TeaAssortment", openDisplay, {})
   vim.api.nvim_create_user_command("HideTeaAssortment", closeDisplay, {})
 end
